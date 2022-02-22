@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { Permissions } = require('discord.js');
 const RoleManager = require('../models/RoleManager.js');
+const { getLanguage, createST } = require('../dbUtils.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -22,7 +23,12 @@ module.exports = {
 				.addRoleOption(option => option.setName('role').setDescription('A role. It will delete all associations where the provided role is involved'))
 				.addStringOption(option => option.setName('emoji').setDescription('An emoji. It will delete all associations where the provided emoji is involved')),
 		),
-	execute(interaction) {
+	async execute(interaction) {
+		const guildId = interaction.guildId;
+
+		const result = await getLanguage(guildId);
+		const st = createST(result.langCode);
+
 		if (interaction.member.permissions.has([Permissions.FLAGS.ADMINISTRATOR])) {
 			if (interaction.options.getSubcommand() === 'add') {
 				const msgId = interaction.options.get('msg_id').value;
@@ -38,46 +44,42 @@ module.exports = {
 						RoleManager.findOne({ messageId: msgId, roleId: roleId, emoji: emoji }, (errorDB, association) => {
 							if (errorDB) {
 								console.error(errorDB);
-								interaction.reply({ content:'Error', ephemeral: true });
+								interaction.reply({ content:st.getST('Error'), ephemeral: true });
 								return;
 							}
 							else {
 								message.react(emoji).then(() => {
 									if (!association) {
-										association = new RoleManager({
-											messageId: msgId,
-											roleId: roleId,
-											emoji: emoji,
-										});
+										association = new RoleManager({ messageId: msgId, roleId: roleId, emoji: emoji });
 										association.save(errorDBsave => {
 											if (errorDBsave) {
 												console.error(errorDBsave);
-												interaction.reply({ content:'Error, please retry later', ephemeral: true });
+												interaction.reply({ content:st.getST('ErrorRetryLater'), ephemeral: true });
 											}
 											else {
-												interaction.reply({ content:'Association has successfully been added', ephemeral: true });
+												interaction.reply({ content:st.getST('AssociationAdded'), ephemeral: true });
 											}
 										});
 									}
 									else {
-										interaction.reply({ content:'Error, association is already registered', ephemeral: true });
+										interaction.reply({ content:st.getST('ErrorAssociationAlreadyRegistered'), ephemeral: true });
 									}
 
 								}).catch(error => {
 									console.error(error); // Unknown Emoji
-									interaction.reply({ content:'Error, the emoji provided is invalid', ephemeral: true });
+									interaction.reply({ content:st.getST('ErrorInvalidEmoji'), ephemeral: true });
 								});
 							}
 						});
 
 					}).catch(error => {
 						console.error(error); // Unknown Message
-						interaction.reply({ content:'Error, unknown message: \n- The provided message id could be wrong\n- This command must be executed in the channel of the targeted message', ephemeral: true });
+						interaction.reply({ content:st.getST('ErrorUnknownMessage'), ephemeral: true });
 					});
 
 				}).catch(error => {
 					console.error(error); // Error related to channel
-					interaction.reply({ content:'Error', ephemeral: true });
+					interaction.reply({ content:st.getST('Error'), ephemeral: true });
 				});
 			}
 			else if (interaction.options.getSubcommand() === 'del') {
@@ -94,11 +96,11 @@ module.exports = {
 							RoleManager.deleteMany({ messageId: msgId }, (errorDB, report) => {
 								if (errorDB) {
 									console.error(errorDB);
-									interaction.reply({ content:'Error', ephemeral: true });
+									interaction.reply({ content:st.getST('Error'), ephemeral: true });
 									return;
 								}
 								else {
-									interaction.reply({ content:`${report.deletedCount} associations deleted`, ephemeral: true });
+									interaction.reply({ content:st.getST('AssociationDeleted', report.deletedCount), ephemeral: true });
 								}
 							});
 						}
@@ -109,11 +111,11 @@ module.exports = {
 								RoleManager.deleteMany({ messageId: msgId, roleId: roleId }, (errorDB, report) => {
 									if (errorDB) {
 										console.error(errorDB);
-										interaction.reply({ content:'Error', ephemeral: true });
+										interaction.reply({ content:st.getST('Error'), ephemeral: true });
 										return;
 									}
 									else {
-										interaction.reply({ content:`${report.deletedCount} associations deleted`, ephemeral: true });
+										interaction.reply({ content:st.getST('AssociationDeleted', report.deletedCount), ephemeral: true });
 									}
 								});
 							}
@@ -122,11 +124,11 @@ module.exports = {
 								RoleManager.deleteMany({ messageId: msgId, emoji: emoji }, (errorDB, report) => {
 									if (errorDB) {
 										console.error(errorDB);
-										interaction.reply({ content:'Error', ephemeral: true });
+										interaction.reply({ content:st.getST('Error'), ephemeral: true });
 										return;
 									}
 									else {
-										interaction.reply({ content:`${report.deletedCount} associations deleted`, ephemeral: true });
+										interaction.reply({ content:st.getST('AssociationDeleted', report.deletedCount), ephemeral: true });
 									}
 								});
 							}
@@ -134,18 +136,20 @@ module.exports = {
 
 					}).catch(error => {
 						console.error(error); // Unknown Message
-						interaction.reply({ content:'Error, unknown message: \n- The provided message id could be wrong\n- This command must be executed in the channel of the targeted message', ephemeral: true });
+						interaction.reply({ content:st.getST('ErrorUnknownMessage'), ephemeral: true });
 					});
 
 				}).catch(error => {
 					console.error(error); // Error related to channel
-					interaction.reply({ content:'Error', ephemeral: true });
+					interaction.reply({ content:st.getST('Error'), ephemeral: true });
 				});
 
 			}
 		}
 		else {
 			interaction.reply({ content:'Only users with administrator flag can use this command', ephemeral: true });
+			// console.log('NEP');
 		}
+
 	},
 };

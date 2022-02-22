@@ -1,0 +1,13 @@
+{
+	"Error": ":x: Erreur",
+	"ErrorRetryLater": ":x: Error, please retry later",
+	"ErrorAssociationAlreadyRegistered" :":x: Erreur, l'association est déjà enregistré",
+	"ErrorInvalidEmoji": ":x: Erreur, l'émoji fourni est invalide",
+	"ErrorUnknownMessage": ":x: Erreur, message inconnu : \n- L'id du message fourni pourrait être invalide\n- Cette commande doit être exécutée dans le canal du message visé",
+	"NotEnoughPermissions": ":no_entry_sign: Seulement les utilisateurs avec le flag d'administrateur peuvent utilités cette commande",
+	"AssociationAdded":":white_check_mark: L'association a été ajouté avec succès",
+	"AssociationDeleted": ":white_check_mark: %v associations supprimées",
+	"RollResult": ":game_die: Vous avez obtenu %v ! (%v-%v)",
+	"SettingsSaved":":white_check_mark: Les paramètres ont été sauvegardés avec succès",
+	"SettingsUpdated":":white_check_mark: Les paramètres ont été mis à jour avec succès"
+}
