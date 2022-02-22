@@ -1,7 +1,7 @@
-# Brindibot
+# 🦉 Brindibot
 Brindibot is a Discord bot made with discord.js. The name is a portmanteau word of the Pokemon Brindibou (french name of Rowlet) with the word Bot.
 
-## Functionalities
+## Functionalities 🧰
 ### List of available commands / subcommands
 **/rm add** _`msg_id`  `role` `emoji`_  
 _Types: String, Role, String_  
@@ -11,11 +11,14 @@ _Notes:_ This command create a reaction on a message that gives roles when a use
 _Types: String, (Role), (String)_  
 _Notes:_ If no optional args are specified, ***all*** emoji<->roles associations on the specified message will be removed.
 
-**/roll**  
-_Notes:_ _/roll_ will always returns a number between 1 and 100 (included).
+**/roll** _`(min)` `(max)`_
+_Notes:_ _/roll_ will returns a number between 1 and 100 (included) or between the optional arguments. If one of the args is not provided min or max will be replaced respectively by 1 and 100.
+
+**/settings** _`language`_
+_Notes:_ Change the language that the bot use in a server.
 
 
-## Install
+## Install 🔧
 ### Download
 
 ### Setup the database
@@ -50,18 +53,37 @@ Don't forget to create a `.env` in the project root folder
 
 **Important:** Once the bot is added, in *Server parameter > Roles* you need to ensure that the role of the bot is upper in the list than the roles that you want to make it gives.
 
-## Notes
+## Notes 📝
 ### About
 The bot is developed with Discord.js v13.  
 This project use a linter, rules are stored in `.eslintrc.json`.
+
+### Credits
+- Command and event handler: discord.js Guide
+- Database.js: Tyler Potts
 
 ### To Do
 - /help command
 - Role Manager: add a list command
 - Button Management
 - A remind me command
+- Time Zone Converter
+- ✅ Localisation (Slash commands can't be translated yet)
 
-## See also
+### Changelog
+<details>
+  <summary>See changelog</summary>
+
+*Brindibot v1.1.0*
+- `/roll` have now two optional args to let the user decide range of the roll.
+- Localisation system; to change the language the bot use type `/settings language`.  
+Supported languages: English (en) and French (fr).
+
+*Brindibot v1.0.0* (release)
+
+</details>
+
+## See also 🔗
 - Discord.js
 
 discord.js Guide - [discordjs.guide](https://discordjs.guide)  
@@ -75,6 +97,6 @@ Free online MongoDB database - [mongodb.com/atlas](https://www.mongodb.com/atlas
 
 - Miscellaneous
 
-A nice video tutorial by Tyler Potts to make a Discord Bot  (Node.js, Discord.js v13) - [youtube.com/watch?v=Qc9uPgGmQ7I](https://www.youtube.com/watch?v=Qc9uPgGmQ7I)  
+A nice video tutorial series by Tyler Potts to make a Discord Bot  (Node.js, Discord.js v13) - [youtube.com/watch?v=Qc9uPgGmQ7I](https://www.youtube.com/watch?v=Qc9uPgGmQ7I)  
 A website to preview your Markdowns files - [stackedit.io](https://stackedit.io/)  
 Calculate a Permissions integer [discordapi.com/permissions.html](https://discordapi.com/permissions.html)
