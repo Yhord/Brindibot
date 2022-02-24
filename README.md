@@ -13,10 +13,12 @@ _Notes:_ This command create a reaction on a message that gives roles when a use
 _Types: String, (Role), (String)_  
 _Notes:_ If no optional args are specified, ***all*** emoji<->roles associations on the specified message will be removed.
 
-**/roll** _`(min)` `(max)`_
+**/roll** _`(min)` `(max)`_  
+_Types: (Integer), (Integer)_  
 _Notes:_ _/roll_ will returns a number between 1 and 100 (included) or between the optional arguments. If one of the args is not provided min or max will be replaced respectively by 1 and 100.
 
-**/settings** _`language`_
+**/settings** _`language`_  
+_Types: String_  
 _Notes:_ Change the language that the bot use in a server.
 
 
