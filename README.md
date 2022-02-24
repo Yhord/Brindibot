@@ -1,7 +1,4 @@
-
-<p style="text-align:center;">
-	<img src="https://repository-images.githubusercontent.com/461631152/e6d159a6-611c-4dbc-beaa-399c79076b9f" width="400">
-</p>
+<img src="https://repository-images.githubusercontent.com/461631152/e6d159a6-611c-4dbc-beaa-399c79076b9f" width="400">
 
 # 🦉 Brindibot
 Brindibot is a Discord bot made with discord.js. The name is a portmanteau word of the Pokemon Brindibou (french name of Rowlet) with the word Bot.
